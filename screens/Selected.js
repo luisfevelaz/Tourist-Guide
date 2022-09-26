@@ -3,9 +3,9 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity } from "react-native
 
 import {widthPercentageToDP, heightPercentageToDP} from '../resources/dimensiones';
 
-class Home extends Component{
+class Selected extends Component{
 
-    constructor(props,{navigation}){
+    constructor(props){
         super(props);
 
         this.state={
@@ -19,21 +19,7 @@ class Home extends Component{
     render(){
         return(
         <View style={styles.container}>
-            {this.state.arrayCategory.length>0 ? (
-                <FlatList
-                data={this.state.arrayCategory}
-                renderItem={({item}) => 
-                    <TouchableOpacity style={styles.item}
-                    onPress={()=>{
-                        this.props.navigation.navigate("Selected");
-                    }}>
-                        <Text style={styles.texto}>{item.nombre}</Text>
-                    </TouchableOpacity>}
-                />
-
-            ): (
-                <Text style={styles.texto}>Cargando Categorías</Text>
-            )}
+            <Text style={styles.texto}>Cargando Categorías</Text>
         </View>
         );
     }
@@ -60,4 +46,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Home;
+export default Selected;

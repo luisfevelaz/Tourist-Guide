@@ -11,11 +11,11 @@ const MainStack = () =>{
         <NavigationContainer>
             <Stack.Navigator>
                 <Stack.Screen
-                name='Home'
+                name='Inicio'
                 component = {Home}
                 />
                 <Stack.Screen
-                name='Selected'
+                name='Seleccionado'
                 component = {Selected}
                 />
             </Stack.Navigator>

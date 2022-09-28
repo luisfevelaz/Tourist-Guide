@@ -25,7 +25,7 @@ class Home extends Component{
                 renderItem={({item}) => 
                     <TouchableOpacity style={styles.item}
                     onPress={()=>{
-                        this.props.navigation.navigate("Selected");
+                        this.props.navigation.navigate("Seleccionado");
                     }}>
                         <Text style={styles.texto}>{item.nombre}</Text>
                     </TouchableOpacity>}

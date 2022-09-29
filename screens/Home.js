@@ -9,7 +9,7 @@ class Home extends Component{
         super(props);
 
         this.state={
-            arrayCategory:[{nombre:"Deportes"},{nombre:"Museos"}]
+            arrayCategory:[{nombre:"Deportes"},{nombre:"Museos"},{nombre:"Teatros"}]
         }
     }
     componentDidMount(){

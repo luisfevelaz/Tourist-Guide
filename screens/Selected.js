@@ -41,6 +41,18 @@ class Selected extends Component{
                         title={'Test Marker'}
                         description={'This is a description of the marker'}
                     />
+                    <Marker
+                        draggable
+                        coordinate={{
+                        latitude: 19.00034,
+                        longitude: -99.1360595493,
+                        }}
+                        onDragEnd={
+                        (e) => alert(JSON.stringify(e.nativeEvent.coordinate))
+                        }
+                        title={'Test Marker'}
+                        description={'This is a description of the marker'}
+                    />
                     </MapView>
                 </View>
 

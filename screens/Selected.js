@@ -10,14 +10,22 @@ class Selected extends Component{
         super(props);
 
         this.state={
-            arrayCategory:[{nombre:"Deportes"},{nombre:"Museos"}]
+            categoria: {},
+            arrayCiudades:[],
+            blnShowMap: false
         }
+        this.state.categoria = this.props.route.params.categoria;
+        this.state.arrayCiudades = this.props.route.params.ciudades;
     }
+
+   
+
     componentDidMount(){
-        console.log("\n\nHola");
+      console.log(JSON.stringify(this.state.arrayCiudades));
     }
     
-    render(){
+    renderMaps(){
+
         return(
                 <View style={styles.container}>
                     <MapView
@@ -57,6 +65,38 @@ class Selected extends Component{
                 </View>
 
         );
+    }
+
+    renderCiudades(){
+      return(
+        <View style={styles.container}>
+            {this.state.arrayCiudades.length>0 ? (
+                <FlatList
+                data={this.state.arrayCiudades}
+                renderItem={({item}) => 
+                    <TouchableOpacity style={styles.item}
+                    onPress={()=>{
+                        this.setState({blnShowMap:true})
+                    }}>
+                        <Text style={styles.texto}>{item.nombre}</Text>
+                    </TouchableOpacity>}
+                />
+
+            ): (
+                <Text style={styles.texto}>Cargando Ciudades</Text>
+            )}
+        </View>
+      );
+    }
+
+    render(){
+      if(this.state.blnShowMap == true){
+        return(this.renderMaps());
+      
+      }else{
+        return(this.renderCiudades());
+      }
+      
     }
 }
 
@@ -142,18 +182,23 @@ const mapStyle = [
   ];
 
 const styles = StyleSheet.create({
-    container: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        alignItems: 'center',
-        justifyContent: 'flex-end',
+  container: {
+    flex: 1,
+    alignContent: 'center',
+    alignItems:'center',
+    justifyContent: 'center'
     },
     texto: {
         color: 'black',
         fontSize: widthPercentageToDP('10%')
+    },
+    item:{
+        margin: heightPercentageToDP('2%'),
+        borderRadius: widthPercentageToDP('5%'),
+        backgroundColor: '#35F1C6',
+        padding: widthPercentageToDP('3%'),
+        borderWidth:1,
+        borderColor: 'black'
     },
     mapStyle: {
         position: 'absolute',

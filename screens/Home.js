@@ -5,15 +5,41 @@ import {widthPercentageToDP, heightPercentageToDP} from '../resources/dimensione
 
 class Home extends Component{
 
-    constructor(props,{navigation}){
+    constructor(props){
         super(props);
 
         this.state={
-            arrayCategory:[{nombre:"Deportes"},{nombre:"Museos"},{nombre:"Teatros"}]
+            arrayCategory:[],
+            arrayCiudades:[]
         }
     }
+
+    getCategorias=async()=>{
+        const result = await fetch('http://192.168.100.6:3000/categorias')
+            .then((response) => response.json())
+            .then((json) => {
+                // console.log("JSON: ",JSON.stringify(json));
+                this.setState({arrayCategory: json});
+            })
+            .catch((error) => {
+            console.error(error);
+            });
+    }
+
+    getCiudades=async()=>{
+        const result = await fetch('http://192.168.100.6:3000/ciudades')
+          .then((response) => response.json())
+          .then((json) => {      
+              this.setState({arrayCiudades: json});
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      }
+
     componentDidMount(){
-        console.log("\n\nHola");
+        this.getCategorias();
+        this.getCiudades();
     }
     
     render(){
@@ -25,7 +51,10 @@ class Home extends Component{
                 renderItem={({item}) => 
                     <TouchableOpacity style={styles.item}
                     onPress={()=>{
-                        this.props.navigation.navigate("Seleccionado");
+                        this.props.navigation.navigate("Seleccionado",{
+                            categoria: item,
+                            ciudades: this.state.arrayCiudades
+                        });
                     }}>
                         <Text style={styles.texto}>{item.nombre}</Text>
                     </TouchableOpacity>}

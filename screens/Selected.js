@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, BackHandler } from "react-native";
 import MapView, {Marker} from 'react-native-maps';
 
 import {widthPercentageToDP, heightPercentageToDP} from '../resources/dimensiones';
@@ -11,18 +11,45 @@ class Selected extends Component{
 
         this.state={
             categoria: {},
-            arrayCiudades:[],
-            blnShowMap: false
+            arrayLugares:[],
+            blnShowMap: false,
+            decLatitudMapa: 19.425705,
+            decLongitudMapa: -99.13605,
+            strClaveCd: null
         }
         this.state.categoria = this.props.route.params.categoria;
         this.state.arrayCiudades = this.props.route.params.ciudades;
     }
 
-   
+    backAction = () => {
+      this.setState({blnShowMap: false});
+      return true;
+    };
+
+    getLugares=async()=>{
+      const result = await fetch('http://192.168.100.6:3000/lugares')
+        .then((response) => response.json())
+        .then((json) => {      
+            this.setState({arrayLugares: json});
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+
 
     componentDidMount(){
-      console.log(JSON.stringify(this.state.arrayCiudades));
+      this.backHandler = BackHandler.addEventListener(
+        "hardwareBackPress",
+        this.backAction
+      );
+
     }
+
+    componentWillUnmount() {
+      this.backHandler.remove();
+    }
+    
     
     renderMaps(){
 
@@ -31,25 +58,13 @@ class Selected extends Component{
                     <MapView
                     style={styles.mapStyle}
                     initialRegion={{
-                        latitude: 19.425705,
-                        longitude: -99.13605,
+                        latitude: this.state.decLatitudMapa,
+                        longitude: this.state.decLongitudMapa,
                         latitudeDelta: 0.0922,
                         longitudeDelta: 0.0421,
                     }}
                     customMapStyle={mapStyle}>
-                    <Marker
-                        draggable
-                        coordinate={{
-                        latitude: 19.425705449885555,
-                        longitude: -99.13605954938201,
-                        }}
-                        onDragEnd={
-                        (e) => alert(JSON.stringify(e.nativeEvent.coordinate))
-                        }
-                        title={'Test Marker'}
-                        description={'This is a description of the marker'}
-                    />
-                    <Marker
+                    {/* <Marker
                         draggable
                         coordinate={{
                         latitude: 19.00034,
@@ -60,7 +75,7 @@ class Selected extends Component{
                         }
                         title={'Test Marker'}
                         description={'This is a description of the marker'}
-                    />
+                    /> */}
                     </MapView>
                 </View>
 
@@ -76,7 +91,11 @@ class Selected extends Component{
                 renderItem={({item}) => 
                     <TouchableOpacity style={styles.item}
                     onPress={()=>{
-                        this.setState({blnShowMap:true})
+                        this.setState({
+                          blnShowMap: true,
+                          decLatitudMapa: parseFloat(item.location.latitud),
+                          decLongitudMapa: parseFloat(item.location.longitud)
+                        })
                     }}>
                         <Text style={styles.texto}>{item.nombre}</Text>
                     </TouchableOpacity>}

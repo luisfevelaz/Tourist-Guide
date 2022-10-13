@@ -1,7 +1,6 @@
 import React, {Component} from "react";
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, BackHandler } from "react-native";
-import MapView, {Marker} from 'react-native-maps';
-
+import MapView, {Marker,Callout} from 'react-native-maps';
 import {widthPercentageToDP, heightPercentageToDP} from '../resources/dimensiones';
 
 class Selected extends Component{
@@ -27,7 +26,7 @@ class Selected extends Component{
     };
 
     getLugares=async()=>{
-      const result = await fetch('http://192.168.100.6:3000/lugares')
+      const result = await fetch(`http://192.168.100.6:3000/lugares/${this.state.strClaveCd}/${this.state.categoria.id}`)
         .then((response) => response.json())
         .then((json) => {      
             this.setState({arrayLugares: json});
@@ -43,7 +42,8 @@ class Selected extends Component{
         "hardwareBackPress",
         this.backAction
       );
-
+      // this.getLugares();
+      // console.log(JSON.stringify());
     }
 
     componentWillUnmount() {
@@ -52,7 +52,6 @@ class Selected extends Component{
     
     
     renderMaps(){
-
         return(
                 <View style={styles.container}>
                     <MapView
@@ -64,18 +63,31 @@ class Selected extends Component{
                         longitudeDelta: 0.0421,
                     }}
                     customMapStyle={mapStyle}>
-                    {/* <Marker
-                        draggable
-                        coordinate={{
-                        latitude: 19.00034,
-                        longitude: -99.1360595493,
-                        }}
-                        onDragEnd={
-                        (e) => alert(JSON.stringify(e.nativeEvent.coordinate))
-                        }
-                        title={'Test Marker'}
-                        description={'This is a description of the marker'}
-                    /> */}
+                      {this.state.arrayLugares.length > 0 ?
+                      this.state.arrayLugares.map((item) => {
+                        return(
+                          <Marker
+                              draggable
+                              coordinate={{
+                              latitude: parseFloat(item.location.latitud),
+                              longitude: parseFloat(item.location.longitud),
+                              }}
+                              
+                              title={item.nombre}
+                            />
+                        );
+                      }) :   
+                      <Marker
+                          draggable={false}
+                          coordinate={{
+                            latitude: this.state.decLatitudMapa,
+                            longitude: this.state.decLongitudMapa,
+                          }}
+                          onSelect={()=>{console.log("Pressed");}}
+                          title={"No hay lugares registrados"}
+                        />
+                    }     
+                        
                     </MapView>
                 </View>
 
@@ -94,7 +106,10 @@ class Selected extends Component{
                         this.setState({
                           blnShowMap: true,
                           decLatitudMapa: parseFloat(item.location.latitud),
-                          decLongitudMapa: parseFloat(item.location.longitud)
+                          decLongitudMapa: parseFloat(item.location.longitud),
+                          strClaveCd: item.clave
+                        },()=>{
+                          this.getLugares();
                         })
                     }}>
                         <Text style={styles.texto}>{item.nombre}</Text>

@@ -64,15 +64,21 @@ class Selected extends Component{
                     }}
                     customMapStyle={mapStyle}>
                       {this.state.arrayLugares.length > 0 ?
-                      this.state.arrayLugares.map((item) => {
+                      this.state.arrayLugares.map((item,index) => {
                         return(
                           <Marker
-                              draggable
+                              key={index}
+                              // draggable
+                              onPress={(e)=>{
+                                this.props.navigation.navigate("Lugar",{
+                                  place: item
+                                });
+                              }}
                               coordinate={{
                               latitude: parseFloat(item.location.latitud),
                               longitude: parseFloat(item.location.longitud),
                               }}
-                              
+                              on
                               title={item.nombre}
                             />
                         );

@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import Home from '../screens/Home';
 import Selected from '../screens/Selected';
+import Place from '../screens/Place';
 
 const Stack = createNativeStackNavigator();
 
@@ -17,6 +18,10 @@ const MainStack = () =>{
                 <Stack.Screen
                 name='Seleccionado'
                 component = {Selected}
+                />
+                <Stack.Screen
+                name='Lugar'
+                component = {Place}
                 />
             </Stack.Navigator>
         </NavigationContainer>

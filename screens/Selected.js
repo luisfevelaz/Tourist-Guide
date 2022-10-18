@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, BackHandler } from "react-native";
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, BackHandler, ImageBackground } from "react-native";
 import MapView, {Marker,Callout} from 'react-native-maps';
 import {widthPercentageToDP, heightPercentageToDP} from '../resources/dimensiones';
 
@@ -53,6 +53,7 @@ class Selected extends Component{
     
     renderMaps(){
         return(
+          <ImageBackground source={require('../assets/cielo.jpg')} resizeMode="cover" style={styles.image}>
                 <View style={styles.container}>
                     <MapView
                     style={styles.mapStyle}
@@ -96,12 +97,13 @@ class Selected extends Component{
                         
                     </MapView>
                 </View>
-
+          </ImageBackground>
         );
     }
 
     renderCiudades(){
       return(
+        <ImageBackground source={require('../assets/cielo.jpg')} resizeMode="cover" style={styles.image}>
         <View style={styles.container}>
             {this.state.arrayCiudades.length>0 ? (
                 <FlatList
@@ -126,6 +128,7 @@ class Selected extends Component{
                 <Text style={styles.texto}>Cargando Ciudades</Text>
             )}
         </View>
+        </ImageBackground>
       );
     }
 
@@ -235,7 +238,7 @@ const styles = StyleSheet.create({
     item:{
         margin: heightPercentageToDP('2%'),
         borderRadius: widthPercentageToDP('5%'),
-        backgroundColor: '#35F1C6',
+        backgroundColor: 'rgba(161,241,206,0.5)',
         padding: widthPercentageToDP('3%'),
         borderWidth:1,
         borderColor: 'black'
@@ -247,6 +250,10 @@ const styles = StyleSheet.create({
         right: 0,
         bottom: 0,
       },
+    image:{
+        flex: 1,
+        justifyContent: "center"
+    }
 });
 
 export default Selected;

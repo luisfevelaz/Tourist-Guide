@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, ImageBackground } from "react-native";
 
 import {widthPercentageToDP, heightPercentageToDP} from '../resources/dimensiones';
 import {FlatListSlider} from 'react-native-flatlist-slider';
@@ -51,14 +51,22 @@ class Place extends Component{
     render(){
         if(this.state.place.nombre != undefined){
             return(
+            <ImageBackground source={require('../assets/cielo.jpg')} resizeMode="cover" style={styles.image}>
             <View style={styles.container}>
-                <Text style={styles.texto}>{this.state.place.nombre}</Text>
-                <View>
-                    <Text>Descripción: </Text>
+                <View style={{marginBottom: heightPercentageToDP('5%'), backgroundColor: 'rgba(161,241,206,0.5)', borderRadius: 10, padding: widthPercentageToDP('3%'), marginTop: heightPercentageToDP('2%')}}>
+                    <Text style={styles.texto}>{this.state.place.nombre}</Text>
                 </View>
-                <View style={{marginTop: widthPercentageToDP('25%')}}>
+                <View>
+                    <Text style={styles.tituloParrafo}>Descripción: </Text>
+                </View>
+                <View style={styles.parrafo}>
+                    <Text style={{textAlign:'justify', color:'black'}}>
+                        {this.state.place.descripcion != undefined ? this.state.place.descripcion : ''}
+                    </Text>
+                </View>
+                <View style={{marginTop: widthPercentageToDP('5%')}}>
                     <View style={styles.container2}>
-                        <Text>Videos: </Text>
+                        <Text style={styles.tituloParrafo}>Videos: </Text>
                     </View>
                     {
                         (this.state.arrayVideos.length > 0 ? 
@@ -74,12 +82,15 @@ class Place extends Component{
                 </View>
                 
             </View>
+            </ImageBackground>
             );
         }else{
             return(
+                <ImageBackground source={require('../assets/cielo.jpg')} resizeMode="cover" style={styles.image}>
                 <View style={styles.container}>
                     <Text>Cargando datos...</Text>
                 </View>
+                </ImageBackground>
             );
         }
     }
@@ -89,23 +100,31 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems:'center',
-        backgroundColor: '#FAF393',
-        marginBottom: heightPercentageToDP('5%')
+        marginBottom: heightPercentageToDP('5%'),
+        paddingHorizontal: widthPercentageToDP('5%')
     },
     container2: {
         alignItems:'center',
-        backgroundColor: '#FAF393'
     },
     texto: {
-        color: 'black',
+        color: 'white',
+        fontWeight: 'bold',
+        textShadowColor: 'black',
+        textShadowOffset:{width: widthPercentageToDP('1%'), height: widthPercentageToDP('1%')},
+        textShadowRadius: 2,
+        textAlign: 'center',
         fontSize: widthPercentageToDP('10%')
     },
     title:{
         color: 'black',
         fontSize: widthPercentageToDP('5%')
     },
+    tituloParrafo:{
+        color: 'black',
+        fontWeight: 'bold',
+        fontSize: widthPercentageToDP('5%')
+    },
     slide:{
-        backgroundColor: 'blue',
         height: heightPercentageToDP('25%'),
         width: widthPercentageToDP('30%')
     },
@@ -116,6 +135,16 @@ const styles = StyleSheet.create({
         padding: widthPercentageToDP('3%'),
         borderWidth:1,
         borderColor: 'black'
+    },
+    image:{
+        flex: 1,
+        justifyContent: "center"
+    },
+    parrafo:{
+        backgroundColor: 'rgba(161,241,206,0.5)',
+        borderRadius: 10,
+        padding: widthPercentageToDP('4%'),
+        textAlign: 'justify',
     }
 });
 

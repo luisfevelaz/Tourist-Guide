@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, FlatList, TouchableOpacity,ImageBackground } from "react-native";
 
 import {widthPercentageToDP, heightPercentageToDP} from '../resources/dimensiones';
 
@@ -44,6 +44,7 @@ class Home extends Component{
     
     render(){
         return(
+        <ImageBackground source={require('../assets/cielo.jpg')} resizeMode="cover" style={styles.image}>
         <View style={styles.container}>
             {this.state.arrayCategory.length>0 ? (
                 <FlatList
@@ -64,6 +65,7 @@ class Home extends Component{
                 <Text style={styles.texto}>Cargando Categorías</Text>
             )}
         </View>
+        </ImageBackground>
         );
     }
 }
@@ -82,10 +84,14 @@ const styles = StyleSheet.create({
     item:{
         margin: heightPercentageToDP('2%'),
         borderRadius: widthPercentageToDP('5%'),
-        backgroundColor: '#35F1C6',
+        backgroundColor: 'rgba(161,241,206,0.5)',
         padding: widthPercentageToDP('3%'),
         borderWidth:1,
         borderColor: 'black'
+    },
+    image:{
+        flex: 1,
+        justifyContent: "center"
     }
 });
 

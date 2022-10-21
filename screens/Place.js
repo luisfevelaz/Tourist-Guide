@@ -3,6 +3,11 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity, ImageBackground } f
 
 import {widthPercentageToDP, heightPercentageToDP} from '../resources/dimensiones';
 import {FlatListSlider} from 'react-native-flatlist-slider';
+import { Overlay, Button, Icon } from "@rneui/themed";
+
+import YoutubePlayer from "react-native-youtube-iframe";
+
+const KEY = '';
 
 class Place extends Component{
 
@@ -12,14 +17,15 @@ class Place extends Component{
         this.state={
             arrayVideos: [],
             place: {},
-            arrayPrueba: [{title: 'Uno'},{title: 'Dos'},{title: 'Tres'}]
+            blnVideoVisible: false,
+            itemIndex: 0
         }
 
         this.state.place = this.props.route.params.place;
     }
 
     getVideos=async()=>{
-        const result = await fetch(``)
+        const result = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&key=${KEY}&type=video&q=${this.state.place.nombre}`)
         .then((response) => response.json())
         .then((json) => {      
             // console.log("Array Videos: ", JSON.stringify(json,null,2));
@@ -33,9 +39,7 @@ class Place extends Component{
                     desc: element.snippet.title
                 });
             })
-            this.setState({arrayVideos: final},()=>{
-                console.log(JSON.stringify(this.state.arrayVideos,null,2));
-            });
+            this.setState({arrayVideos: final});
         })
         .catch((error) => {
           console.error(error);
@@ -72,16 +76,37 @@ class Place extends Component{
                         (this.state.arrayVideos.length > 0 ? 
                     (
                         <FlatListSlider
-
+                            
                             data={this.state.arrayVideos} 
                             imageKey={'imagen'}
-                            onPress={item => alert(JSON.stringify('Pressed item: '))}
+                            onPress={(item,index) => {
+                                console.log(JSON.stringify(this.state.arrayVideos[item]));
+                                this.setState({blnVideoVisible: true,itemIndex: item});
+                            }}
                         />
                     ) : null)
                     }
                 </View>
                 
+                
             </View>
+            <Overlay isVisible={this.state.blnVideoVisible} onBackdropPress={()=>{this.setState({blnVideoVisible: false})}}
+            style={{width: widthPercentageToDP('95%'),height: heightPercentageToDP('80%'), backgroundColor: 'black'}}
+            >
+            {
+                this.state.arrayVideos.length > 0 ? 
+                (
+                <YoutubePlayer
+                 height={heightPercentageToDP('30%')}
+                 width={widthPercentageToDP('95%')}
+                 play={true}
+                 videoId={this.state.arrayVideos[this.state.itemIndex].id}
+                 
+                 />
+                )
+                : null
+            }   
+            </Overlay>
             </ImageBackground>
             );
         }else{
@@ -145,7 +170,17 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: widthPercentageToDP('4%'),
         textAlign: 'justify',
-    }
+    },
+    textPrimary: {
+        marginVertical: 20,
+        textAlign: 'center',
+        fontSize: 20,
+      },
+    textSecondary: {
+        marginBottom: 10,
+        textAlign: 'center',
+        fontSize: 17,
+      },
 });
 
 export default Place;

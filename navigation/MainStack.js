@@ -14,14 +14,46 @@ const MainStack = () =>{
                 <Stack.Screen
                 name='Inicio'
                 component = {Home}
+                options={{
+                    title: 'Inicio',
+                    headerStyle: {
+                      backgroundColor: 'rgba(132,232,182,0.6)',
+                      textAlign: 'center'
+                    },
+                    headerTitleStyle: {
+                      fontWeight: 'bold',
+                    },
+                  }}
                 />
                 <Stack.Screen
                 name='Seleccionado'
                 component = {Selected}
+                options ={({route}) => ({
+                    title: `Categoría: ${route.params.categoria.nombre}`,
+                    headerStyle: {
+                        backgroundColor: 'rgba(132,232,182,0.6)',
+                        textAlign: 'center'
+                    },
+                    headerTintColor: '#000',
+                    headerTitleStyle: {
+                        fontWeight: 'bold',
+                    },
+                    
+                })}
                 />
                 <Stack.Screen
                 name='Lugar'
                 component = {Place}
+                options={{
+                    title: 'Descripción',
+                    headerStyle: {
+                      backgroundColor: 'rgba(132,232,182,0.6)',
+                      textAlign: 'center'
+                    },
+                    headerTitleStyle: {
+                      fontWeight: 'bold',
+                    },
+                  }}
                 />
             </Stack.Navigator>
         </NavigationContainer>

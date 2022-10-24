@@ -80,7 +80,7 @@ class Place extends Component{
                             data={this.state.arrayVideos} 
                             imageKey={'imagen'}
                             onPress={(item,index) => {
-                                console.log(JSON.stringify(this.state.arrayVideos[item]));
+                                // console.log(JSON.stringify(this.state.arrayVideos[item]));
                                 this.setState({blnVideoVisible: true,itemIndex: item});
                             }}
                         />
@@ -91,18 +91,21 @@ class Place extends Component{
                 
             </View>
             <Overlay isVisible={this.state.blnVideoVisible} onBackdropPress={()=>{this.setState({blnVideoVisible: false})}}
-            style={{width: widthPercentageToDP('95%'),height: heightPercentageToDP('80%'), backgroundColor: 'black'}}
+            style={{width: widthPercentageToDP('98%'),height: heightPercentageToDP('80%'), backgroundColor: 'black'}}
             >
             {
                 this.state.arrayVideos.length > 0 ? 
                 (
-                <YoutubePlayer
-                 height={heightPercentageToDP('30%')}
-                 width={widthPercentageToDP('95%')}
-                 play={true}
-                 videoId={this.state.arrayVideos[this.state.itemIndex].id}
-                 
-                 />
+                <View
+                style={{backgroundColor: 'rgba(192,232,212,0.6)', width: widthPercentageToDP('95%'),height: heightPercentageToDP('30%'), padding: widthPercentageToDP('3%')}}>
+                    <YoutubePlayer
+                     height={heightPercentageToDP('30%')}
+                     width={widthPercentageToDP('90%')}
+                     play={true}
+                     videoId={this.state.arrayVideos[this.state.itemIndex].id}
+                     
+                     />
+                </View>
                 )
                 : null
             }   

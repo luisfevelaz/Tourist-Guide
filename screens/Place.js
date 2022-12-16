@@ -7,7 +7,7 @@ import { Overlay, Button, Icon } from "@rneui/themed";
 
 import YoutubePlayer from "react-native-youtube-iframe";
 
-const KEY = '';
+const KEY = 'AIzaSyDTLOD9oCVCZ-4X-A3QIck4z8FsCBwhETw';
 
 class Place extends Component{
 
@@ -25,7 +25,7 @@ class Place extends Component{
     }
 
     getVideos=async()=>{
-        const result = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&key=${KEY}&type=video&q=${this.state.place.nombre}`)
+        const result = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&key=${KEY}&type=video&q=${this.state.place.nombre} ${this.state.place.ciudad}`)
         .then((response) => response.json())
         .then((json) => {      
             // console.log("Array Videos: ", JSON.stringify(json,null,2));
@@ -91,7 +91,7 @@ class Place extends Component{
                 
             </View>
             <Overlay isVisible={this.state.blnVideoVisible} onBackdropPress={()=>{this.setState({blnVideoVisible: false})}}
-            style={{width: widthPercentageToDP('98%'),height: heightPercentageToDP('80%'), backgroundColor: 'black'}}
+            style={{width: widthPercentageToDP('90%'),height: heightPercentageToDP('80%'), backgroundColor: 'black', borderRadius: 50}}
             >
             {
                 this.state.arrayVideos.length > 0 ? 

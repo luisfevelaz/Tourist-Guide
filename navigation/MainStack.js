@@ -22,6 +22,7 @@ const MainStack = () =>{
                     },
                     headerTitleStyle: {
                       fontWeight: 'bold',
+                      textAlign:'center'
                     },
                   }}
                 />
@@ -37,6 +38,7 @@ const MainStack = () =>{
                     headerTintColor: '#000',
                     headerTitleStyle: {
                         fontWeight: 'bold',
+                        textAlign:'center'
                     },
                     
                 })}
@@ -52,6 +54,7 @@ const MainStack = () =>{
                     },
                     headerTitleStyle: {
                       fontWeight: 'bold',
+                      textAlign:'center'
                     },
                   }}
                 />
